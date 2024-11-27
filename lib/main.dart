@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'GPA CALCULATOR',
         theme: ThemeData(
           fontFamily: GoogleFonts.ubuntu.toString(),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
           useMaterial3: true,
         ),
         home: GpaScreen());

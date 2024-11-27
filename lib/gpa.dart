@@ -2,8 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
-class GpaScreen extends StatelessWidget {
+class GpaScreen extends StatefulWidget {
   const GpaScreen({super.key}); // Use `const` for better optimization.
+
+  @override
+  State<GpaScreen> createState() => _GpaScreenState();
+}
+
+class _GpaScreenState extends State<GpaScreen> {
+  // List to store course widgets
+  final List<CourseSubsection> courses = [CourseSubsection()];
+
+  // Method to add a new course
+  void _addCourse() {
+    setState(() {
+      courses.add(CourseSubsection());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +37,13 @@ class GpaScreen extends StatelessWidget {
           appBar: AppBar(
             actions: [
               IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.settings,
-                    size: !isDesktop & !isTablet ? 20 : 40,
-                    color: Colors.black,
-                  ))
+                onPressed: null,
+                icon: Icon(
+                  Icons.settings,
+                  size: !isDesktop & !isTablet ? 20 : 40,
+                  color: Colors.black,
+                ),
+              )
             ],
           ),
           body: Center(
@@ -35,7 +51,7 @@ class GpaScreen extends StatelessWidget {
               child: Container(
                 constraints: const BoxConstraints(
                   minHeight: 350,
-                  maxHeight: 550,
+                  maxHeight: 800, // Increased height for dynamic content
                 ),
                 width: containerWidth,
                 padding: const EdgeInsets.all(20),
@@ -58,7 +74,7 @@ class GpaScreen extends StatelessWidget {
                     Container(
                       constraints: const BoxConstraints(
                         minHeight: 200,
-                        maxHeight: 400,
+                        maxHeight: 600, // Allow room for multiple courses
                       ),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -68,48 +84,49 @@ class GpaScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          CourseSubsection(), // Use the updated widget
-                          SizedBox(height: 20),
-                          CourseSubsection(),
-                          SizedBox(height: 20),
-                          Container(
+                          // Display dynamic list of courses
+                          ...courses,
+                          const SizedBox(height: 20),
+                          // Add Course Button
+                          InkWell(
+                            onTap: _addCourse, // Add new course when tapped
+                            child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(10)),
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               height: 50,
-                              width: 700,
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.add),
-                                    Text('Add Course'),
-                                  ],
-                                ),
-                              )),
-                          SizedBox(height: 20),
+                              width: double.infinity,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.add),
+                                  SizedBox(width: 8),
+                                  Text('Add Course'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          // Calculate GPA Button
                           Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(10)),
-                              height: 50,
-                              width: 700,
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Calculate GPA',
-                                      style: GoogleFonts.ubuntu(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ],
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            height: 50,
+                            width: double.infinity,
+                            child: Center(
+                              child: Text(
+                                'Calculate GPA',
+                                style: GoogleFonts.ubuntu(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -35,7 +35,7 @@ class GpaScreen extends StatelessWidget {
               child: Container(
                 constraints: const BoxConstraints(
                   minHeight: 350,
-                  maxHeight: 500,
+                  maxHeight: 550,
                 ),
                 width: containerWidth,
                 padding: const EdgeInsets.all(20),
@@ -58,7 +58,7 @@ class GpaScreen extends StatelessWidget {
                     Container(
                       constraints: const BoxConstraints(
                         minHeight: 200,
-                        maxHeight: 300,
+                        maxHeight: 400,
                       ),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -71,6 +71,45 @@ class GpaScreen extends StatelessWidget {
                           CourseSubsection(), // Use the updated widget
                           SizedBox(height: 20),
                           CourseSubsection(),
+                          SizedBox(height: 20),
+                          Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              height: 50,
+                              width: 700,
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add),
+                                    Text('Add Course'),
+                                  ],
+                                ),
+                              )),
+                          SizedBox(height: 20),
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              height: 50,
+                              width: 700,
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Calculate GPA',
+                                      style: GoogleFonts.ubuntu(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              )),
                         ],
                       ),
                     ),

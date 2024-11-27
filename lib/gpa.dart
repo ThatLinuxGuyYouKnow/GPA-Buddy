@@ -3,17 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
 class GpaScreen extends StatefulWidget {
-  const GpaScreen({super.key}); // Use `const` for better optimization.
+  const GpaScreen({super.key});
 
   @override
   State<GpaScreen> createState() => _GpaScreenState();
 }
 
 class _GpaScreenState extends State<GpaScreen> {
-  // List to store course widgets
   final List<CourseSubsection> courses = [CourseSubsection()];
 
-  // Method to add a new course
   void _addCourse() {
     setState(() {
       courses.add(CourseSubsection());
@@ -51,10 +49,6 @@ class _GpaScreenState extends State<GpaScreen> {
           body: Center(
             child: SingleChildScrollView(
               child: Container(
-                constraints: const BoxConstraints(
-                  minHeight: 350,
-                  maxHeight: 800, // Increased height for dynamic content
-                ),
                 width: containerWidth,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -73,30 +67,32 @@ class _GpaScreenState extends State<GpaScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    ConstrainedBox(
                       constraints: const BoxConstraints(
                         minHeight: 200,
-                        maxHeight: 650, // Allow room for multiple courses
+                        maxHeight: 650,
                       ),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            // Display dynamic list of courses
-                            ...courses,
-                            const SizedBox(height: 20),
-                            // Add Course Button
-                          ],
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ...courses,
+                              const SizedBox(height: 20),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
                     InkWell(
-                      onTap: _addCourse, // Add new course when tapped
+                      onTap: _addCourse,
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
@@ -115,7 +111,6 @@ class _GpaScreenState extends State<GpaScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Calculate GPA Button
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.black,

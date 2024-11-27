@@ -34,7 +34,9 @@ class _GpaScreenState extends State<GpaScreen> {
                 : constraints.maxWidth * 0.85;
 
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
+            backgroundColor: Colors.white,
             actions: [
               IconButton(
                 onPressed: null,

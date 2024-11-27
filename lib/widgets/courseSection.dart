@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class CourseSubsection extends StatelessWidget {
-  const CourseSubsection({super.key}); // Add `const` for immutable widgets.
+var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+class CourseSubsection extends StatefulWidget {
+  CourseSubsection({super.key});
+  @override
+  State<CourseSubsection> createState() => _CourseSubsectionState();
+}
+
+class _CourseSubsectionState extends State<CourseSubsection> {
+  // Add `const` for immutable widgets.
+  String selectedGrade = 'A';
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +23,10 @@ class CourseSubsection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Course Name'),
+              Text(
+                'Course Name',
+                style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               TextField(
                 decoration: InputDecoration(
@@ -32,7 +45,8 @@ class CourseSubsection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Units'),
+              Text('Units',
+                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               TextField(
                 decoration: InputDecoration(
@@ -52,15 +66,41 @@ class CourseSubsection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Grade'),
+              Text(
+                'Grade',
+                style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
-              TextField(
+              DropdownButtonFormField<String>(
+                value: selectedGrade,
                 decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.grey),
                   ),
-                  hintText: 'Grade',
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                 ),
+                dropdownColor: Colors.white,
+                style: GoogleFonts.ubuntu(
+                    fontWeight: FontWeight.bold, color: Colors.black),
+                items: grades.map((String grade) {
+                  return DropdownMenuItem(
+                    value: grade,
+                    child: Text(
+                      grade,
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String? change) {
+                  setState(() {
+                    selectedGrade = change ?? 'A';
+                  });
+                },
+                icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
               ),
             ],
           ),

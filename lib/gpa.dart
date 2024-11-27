@@ -65,7 +65,7 @@ class GpaScreen extends StatelessWidget {
                         border: Border.all(color: Colors.grey.shade300),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CourseSubsection(), // Use the updated widget

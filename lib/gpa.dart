@@ -15,21 +15,30 @@ class _GpaScreenState extends State<GpaScreen> {
   List<Widget> courses = [
     CourseSubsection(
       onGradeSelected: (grade) {},
-      onCourseWeightChanged: (double? courseWeight) {},
       onCourseUnitChanged: (String courseUnit) {},
     )
   ];
+  List<double> courseWeights = []; // To track individual course weights
+
   _addCourse() {
     setState(() {
+      final index = courses.length; // Get index for the new course
+
       courses.add(CourseSubsection(
-        onRemove: (CourseSubsection) {
-          _removeCourse();
+        onRemove: (course) {
+          _removeCourse(index); // Pass index to remove the correct course
         },
         onGradeSelected: (d) {},
         onCourseUnitChanged: (String courseUnit) {},
         onCourseWeightChanged: (double? courseWeight) {
           if (courseWeight != null) {
             setState(() {
+              if (index < courseWeights.length) {
+                totalGradeCount -= courseWeights[index]; // Remove old weight
+                courseWeights[index] = courseWeight; // Update new weight
+              } else {
+                courseWeights.add(courseWeight); // Add new weight
+              }
               totalGradeCount += courseWeight;
             });
           }
@@ -38,10 +47,13 @@ class _GpaScreenState extends State<GpaScreen> {
     });
   }
 
-  _removeCourse() {
+  _removeCourse(int index) {
     setState(() {
-      courses.removeLast();
-      totalGradeCount -= courseWeight;
+      if (index < courses.length && index < courseWeights.length) {
+        totalGradeCount -= courseWeights[index]; // Subtract the course's weight
+        courses.removeAt(index); // Remove course widget
+        courseWeights.removeAt(index); // Remove corresponding weight
+      }
     });
   }
 

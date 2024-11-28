@@ -160,11 +160,6 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                     ],
                   ),
                 ),
-                if (widget.onRemove != null)
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => widget.onRemove!(widget),
-                  ),
               ],
             ),
           ),

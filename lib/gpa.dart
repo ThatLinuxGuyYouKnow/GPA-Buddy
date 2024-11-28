@@ -27,6 +27,7 @@ class _GpaScreenState extends State<GpaScreen> {
         setState(() {
           totalGradeCount + courseWeight!;
         });
+        print(totalGradeCount);
       },
     ));
     setState(() {});

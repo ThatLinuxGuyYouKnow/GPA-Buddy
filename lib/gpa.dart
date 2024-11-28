@@ -20,18 +20,19 @@ class _GpaScreenState extends State<GpaScreen> {
     )
   ];
   _addCourse() {
-    courses.add(CourseSubsection(
-      onGradeSelected: (d) {},
-      onCourseUnitChanged: (String courseUnit) {},
-      onCourseWeightChanged: (double? courseWeight) {
-        print('updating course weight, under add course');
-        setState(() {
-          totalGradeCount + courseWeight!;
-        });
-        print(totalGradeCount);
-      },
-    ));
-    setState(() {});
+    setState(() {
+      courses.add(CourseSubsection(
+        onGradeSelected: (d) {},
+        onCourseUnitChanged: (String courseUnit) {},
+        onCourseWeightChanged: (double? courseWeight) {
+          if (courseWeight != null) {
+            setState(() {
+              totalGradeCount += courseWeight;
+            });
+          }
+        },
+      ));
+    });
   }
 
   @override

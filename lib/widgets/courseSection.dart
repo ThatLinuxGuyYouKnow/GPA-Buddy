@@ -27,13 +27,15 @@ class _CourseSubsectionState extends State<CourseSubsection> {
   double courseWeightCalculation = 0.0;
 
   void updateCourseWeight() {
-    widget.onCourseWeightChanged!(courseWeightCalculation);
-    print('updating course weight');
-
     if (unitController.text.isNotEmpty) {
       courseWeightCalculation =
           getCourseWeight(grade: selectedGrade, unit: unitController.text);
+    } else {
+      courseWeightCalculation = 0.0; // Handle empty input scenario
     }
+
+    widget.onCourseWeightChanged?.call(courseWeightCalculation);
+    print('updating course weight: $courseWeightCalculation');
   }
 
   @override

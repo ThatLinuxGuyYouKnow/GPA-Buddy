@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/logic/finalGpaCalculator.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
@@ -12,6 +13,7 @@ class GpaScreen extends StatefulWidget {
 
 class _GpaScreenState extends State<GpaScreen> {
   double totalGradeCount = 0.0;
+  double courseCount = 0.0;
   List<Widget> courses = [
     CourseSubsection(
       onGradeSelected: (grade) {},
@@ -152,7 +154,11 @@ class _GpaScreenState extends State<GpaScreen> {
                     ),
                     const SizedBox(height: 20),
                     InkWell(
-                      onTap: null,
+                      onTap: () {
+                        calculateGPA(
+                            totalGradeWeights: totalGradeCount,
+                            numberOfCourses: courseCount);
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.black,
@@ -177,7 +183,6 @@ class _GpaScreenState extends State<GpaScreen> {
               ),
             ),
           ),
-          floatingActionButton: FloatingActionButton(onPressed: () {}),
         );
       },
     );

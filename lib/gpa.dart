@@ -13,7 +13,7 @@ class GpaScreen extends StatefulWidget {
 
 class _GpaScreenState extends State<GpaScreen> {
   double totalGradeCount = 0.0;
-  double courseCount = 0.0;
+  double courseCount = 1.0;
   List<Widget> courses = [
     CourseSubsection(
       onGradeSelected: (grade) {},
@@ -25,7 +25,7 @@ class _GpaScreenState extends State<GpaScreen> {
   _addCourse() {
     setState(() {
       final index = courses.length; // Get index for the new course
-
+      courseCount = index as double;
       courses.add(CourseSubsection(
         onRemove: (course) {
           _removeCourse(index); // Pass index to remove the correct course

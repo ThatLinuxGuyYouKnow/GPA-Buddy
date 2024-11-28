@@ -39,19 +39,9 @@ class _GpaScreenState extends State<GpaScreen> {
   }
 
   _removeCourse() {
-    courses.removeLast();
     setState(() {
-      courses.add(CourseSubsection(
-        onGradeSelected: (d) {},
-        onCourseUnitChanged: (String courseUnit) {},
-        onCourseWeightChanged: (double? courseWeight) {
-          if (courseWeight != null) {
-            setState(() {
-              totalGradeCount -= courseWeight;
-            });
-          }
-        },
-      ));
+      courses.removeLast();
+      totalGradeCount -= courseWeight;
     });
   }
 

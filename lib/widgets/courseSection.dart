@@ -9,11 +9,13 @@ class CourseSubsection extends StatefulWidget {
   final void Function(CourseSubsection)? onRemove;
   final Function(String selectedCourse) onGradeSelected;
   final Function(double courseWeight)? onCourseWeightChanged;
+  final Function(String courseUnit) onCourseUnitChanged;
   const CourseSubsection(
       {super.key,
       this.onRemove,
       required this.onGradeSelected,
-      this.onCourseWeightChanged});
+      this.onCourseWeightChanged,
+      required this.onCourseUnitChanged});
 
   @override
   State<CourseSubsection> createState() => _CourseSubsectionState();

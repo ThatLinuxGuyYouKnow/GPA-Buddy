@@ -11,6 +11,7 @@ class GpaScreen extends StatefulWidget {
 }
 
 class _GpaScreenState extends State<GpaScreen> {
+  double totalGradeCount = 0.0;
   List<Widget> courses = [
     CourseSubsection(
       onGradeSelected: (grade) {},
@@ -22,6 +23,11 @@ class _GpaScreenState extends State<GpaScreen> {
     courses.add(CourseSubsection(
       onGradeSelected: (d) {},
       onCourseUnitChanged: (String courseUnit) {},
+      onCourseWeightChanged: (double? courseWeight) {
+        setState(() {
+          totalGradeCount + courseWeight!;
+        });
+      },
     ));
     setState(() {});
   }

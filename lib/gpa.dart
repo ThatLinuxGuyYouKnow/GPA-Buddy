@@ -14,6 +14,7 @@ class _GpaScreenState extends State<GpaScreen> {
   List<Widget> courses = [CourseSubsection(onGradeSelected: (grade) {})];
   _addCourse() {
     courses.add(CourseSubsection(onGradeSelected: (d) {}));
+    setState(() {});
   }
 
   @override

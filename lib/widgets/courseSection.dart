@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/logic/gradeAndUnitWeight.dart';
 
 var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 class CourseSubsection extends StatefulWidget {
   final void Function(CourseSubsection)? onRemove;
   final Function(String selectedCourse) onGradeSelected;
+
   const CourseSubsection(
       {super.key, this.onRemove, required this.onGradeSelected});
 
@@ -14,9 +16,21 @@ class CourseSubsection extends StatefulWidget {
   State<CourseSubsection> createState() => _CourseSubsectionState();
 }
 
-var selectedGrade = 'A';
-
 class _CourseSubsectionState extends State<CourseSubsection> {
+  final unitController = TextEditingController();
+  String selectedGrade = 'A';
+  double courseWeightCalculation = 0.0;
+
+  // Expose the course weight calculation externally
+  double get courseWeight => courseWeightCalculation;
+
+  void updateCourseWeight() {
+    if (unitController.text.isNotEmpty) {
+      courseWeightCalculation =
+          getCourseWeight(grade: selectedGrade, unit: unitController.text);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,6 +74,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                       ),
                       const SizedBox(height: 8),
                       TextField(
+                        controller: unitController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -71,6 +86,11 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                           FilteringTextInputFormatter.allow(
                               RegExp(r'^[0-9]$')), // Allow only single digits
                         ],
+                        onChanged: (_) {
+                          setState(() {
+                            updateCourseWeight();
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -118,8 +138,9 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                         }).toList(),
                         onChanged: (String? change) {
                           setState(() {
-                            widget.onGradeSelected(change ?? 'A');
                             selectedGrade = change ?? 'A';
+                            updateCourseWeight();
+                            widget.onGradeSelected(selectedGrade);
                           });
                         },
                         icon: const Icon(
@@ -134,7 +155,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () =>
-                        widget.onRemove!(widget.key as CourseSubsection),
+                        widget.onRemove!(widget as CourseSubsection),
                   ),
               ],
             ),

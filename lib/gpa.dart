@@ -12,7 +12,7 @@ class GpaScreen extends StatefulWidget {
 class _GpaScreenState extends State<GpaScreen> {
   final List<CourseSubsection> courses = [
     CourseSubsection(
-      onGradeSelected: () {},
+      onGradeSelected: (grade) {},
     )
   ];
   final List<String> coursesAndGrades = [];
@@ -20,7 +20,7 @@ class _GpaScreenState extends State<GpaScreen> {
   void _addCourse() {
     setState(() {
       courses.add(CourseSubsection(
-        onGradeSelected: () {},
+        onGradeSelected: (grade) {},
       ));
     });
   }

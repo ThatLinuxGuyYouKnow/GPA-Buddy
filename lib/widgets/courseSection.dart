@@ -24,6 +24,8 @@ class _CourseSubsectionState extends State<CourseSubsection> {
   // Expose the course weight calculation externally
   double get courseWeight => courseWeightCalculation;
 
+  String get courseUnits => unitController.text;
+
   void updateCourseWeight() {
     if (unitController.text.isNotEmpty) {
       courseWeightCalculation =
@@ -154,8 +156,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                 if (widget.onRemove != null)
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () =>
-                        widget.onRemove!(widget as CourseSubsection),
+                    onPressed: () => widget.onRemove!(widget),
                   ),
               ],
             ),

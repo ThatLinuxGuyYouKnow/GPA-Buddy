@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
+import 'package:gpa_calculator/widgets/courseSection.dart';
 
 class GpaScreen extends StatefulWidget {
   const GpaScreen({super.key});
@@ -10,19 +11,9 @@ class GpaScreen extends StatefulWidget {
 }
 
 class _GpaScreenState extends State<GpaScreen> {
-  final List<CourseSubsection> courses = [
-    CourseSubsection(
-      onGradeSelected: (grade) {},
-    )
-  ];
-  final List<String> coursesAndGrades = [];
-
-  void _addCourse() {
-    setState(() {
-      courses.add(CourseSubsection(
-        onGradeSelected: (grade) {},
-      ));
-    });
+  List<Widget> courses = [CourseSubsection(onGradeSelected: (grade) {})];
+  _addCourse() {
+    courses.add(CourseSubsection(onGradeSelected: (d) {}));
   }
 
   @override
@@ -118,20 +109,23 @@ class _GpaScreenState extends State<GpaScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      height: 50,
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          'Calculate GPA',
-                          style: GoogleFonts.ubuntu(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                    InkWell(
+                      onTap: null,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 50,
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            'Calculate GPA',
+                            style: GoogleFonts.ubuntu(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

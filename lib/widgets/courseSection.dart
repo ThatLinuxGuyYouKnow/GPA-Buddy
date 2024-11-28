@@ -8,9 +8,12 @@ var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
 class CourseSubsection extends StatefulWidget {
   final void Function(CourseSubsection)? onRemove;
   final Function(String selectedCourse) onGradeSelected;
-
+  final Function(double courseWeight)? onCourseWeightChanged;
   const CourseSubsection(
-      {super.key, this.onRemove, required this.onGradeSelected});
+      {super.key,
+      this.onRemove,
+      required this.onGradeSelected,
+      this.onCourseWeightChanged});
 
   @override
   State<CourseSubsection> createState() => _CourseSubsectionState();
@@ -30,6 +33,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
     if (unitController.text.isNotEmpty) {
       courseWeightCalculation =
           getCourseWeight(grade: selectedGrade, unit: unitController.text);
+      widget.onCourseWeightChanged?.call(courseWeightCalculation);
     }
   }
 
@@ -138,7 +142,9 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (String? change) {
+                        onChanged: (
+                          String? change,
+                        ) {
                           setState(() {
                             selectedGrade = change ?? 'A';
                             updateCourseWeight();

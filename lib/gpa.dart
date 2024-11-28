@@ -49,7 +49,6 @@ class _GpaScreenState extends State<GpaScreen> {
         },
       ));
     });
-    print('total grade count' + totalGradeCount.toString());
   }
 
   _removeCourse(int index) {

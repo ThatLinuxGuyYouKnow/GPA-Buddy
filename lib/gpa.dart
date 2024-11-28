@@ -24,6 +24,7 @@ class _GpaScreenState extends State<GpaScreen> {
       onGradeSelected: (d) {},
       onCourseUnitChanged: (String courseUnit) {},
       onCourseWeightChanged: (double? courseWeight) {
+        print('updating course weight, under add course');
         setState(() {
           totalGradeCount + courseWeight!;
         });

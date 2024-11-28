@@ -26,16 +26,13 @@ class _CourseSubsectionState extends State<CourseSubsection> {
   String selectedGrade = 'A';
   double courseWeightCalculation = 0.0;
 
-  // Expose the course weight calculation externally
-  double get courseWeight => courseWeightCalculation;
-
-  String get courseUnits => unitController.text;
-
   void updateCourseWeight() {
+    widget.onCourseWeightChanged!(courseWeightCalculation);
+    print('updating course weight');
+
     if (unitController.text.isNotEmpty) {
       courseWeightCalculation =
           getCourseWeight(grade: selectedGrade, unit: unitController.text);
-      widget.onCourseWeightChanged?.call(courseWeightCalculation);
     }
   }
 

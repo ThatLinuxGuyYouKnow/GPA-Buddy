@@ -42,6 +42,8 @@ class _GpaScreenState extends State<GpaScreen> {
                 courseWeights.add(courseWeight); // Add new weight
               }
               totalGradeCount += courseWeight;
+
+              courseCount = index as double;
             });
           }
         },

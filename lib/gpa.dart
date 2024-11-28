@@ -22,6 +22,9 @@ class _GpaScreenState extends State<GpaScreen> {
   _addCourse() {
     setState(() {
       courses.add(CourseSubsection(
+        onRemove: (CourseSubsection) {
+          _removeCourse();
+        },
         onGradeSelected: (d) {},
         onCourseUnitChanged: (String courseUnit) {},
         onCourseWeightChanged: (double? courseWeight) {

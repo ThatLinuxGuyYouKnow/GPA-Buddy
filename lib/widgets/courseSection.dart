@@ -6,8 +6,9 @@ var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 class CourseSubsection extends StatefulWidget {
   final void Function(CourseSubsection)? onRemove;
-
-  const CourseSubsection({super.key, this.onRemove});
+  final Function(String selectedCourse) onGradeSelected;
+  const CourseSubsection(
+      {super.key, this.onRemove, required this.onGradeSelected});
 
   @override
   State<CourseSubsection> createState() => _CourseSubsectionState();
@@ -117,6 +118,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                         }).toList(),
                         onChanged: (String? change) {
                           setState(() {
+                            widget.onGradeSelected(change ?? 'A');
                             selectedGrade = change ?? 'A';
                           });
                         },

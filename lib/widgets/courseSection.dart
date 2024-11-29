@@ -6,13 +6,11 @@ import 'package:gpa_calculator/logic/gradeAndUnitWeight.dart';
 var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 class CourseSubsection extends StatefulWidget {
-  final void Function(CourseSubsection)? onRemove;
   final Function(String selectedCourse) onGradeSelected;
   final Function(double courseWeight)? onCourseWeightChanged;
   final Function(String courseUnit) onCourseUnitChanged;
   const CourseSubsection(
       {super.key,
-      this.onRemove,
       required this.onGradeSelected,
       this.onCourseWeightChanged,
       required this.onCourseUnitChanged});

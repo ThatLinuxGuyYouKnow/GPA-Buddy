@@ -30,21 +30,20 @@ class _GpaScreenState extends State<GpaScreen> {
         onCourseUnitChanged: (String courseUnit) {},
         onCourseWeightChanged: (double? courseWeight) {
           if (courseWeight != null) {
-            setState(() {
-              // If we already have a weight for this course index, subtract the old weight first
-              if (courseWeights.length > courses.length - 1) {
-                totalGradeCount -= courseWeights[courses.length - 1];
-                courseWeights[courses.length - 1] = courseWeight;
-              } else {
-                courseWeights.add(courseWeight);
-              }
-
-              totalGradeCount += courseWeight;
-              courseCount = courses.length;
-            });
+            int index = courses.length - 1; // Get the index of the new course
+            if (index < courseWeights.length) {
+              // Subtract the old weight before updating
+              totalGradeCount -= courseWeights[index];
+              courseWeights[index] = courseWeight;
+            } else {
+              // Add a new weight for the course
+              courseWeights.add(courseWeight);
+            }
+            totalGradeCount += courseWeight;
           }
         },
       ));
+      courseCount = courses.length; // Update course count
     });
   }
 

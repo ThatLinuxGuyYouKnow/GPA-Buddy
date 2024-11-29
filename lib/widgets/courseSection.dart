@@ -23,17 +23,22 @@ class _CourseSubsectionState extends State<CourseSubsection> {
   final unitController = TextEditingController();
   String selectedGrade = 'A';
   double courseWeightCalculation = 0.0;
-
+  double previousCourseWeight = 0.0;
   void updateCourseWeight() {
     if (unitController.text.isNotEmpty) {
+      // First, subtract the previous course weight if it exists
+      widget.onCourseWeightChanged?.call(-previousCourseWeight);
+
+      // Calculate the new course weight
       courseWeightCalculation =
           getCourseWeight(grade: selectedGrade, unit: unitController.text);
-    } else {
-      courseWeightCalculation = 0.0; // Handle empty input scenario
-    }
 
-    widget.onCourseWeightChanged?.call(courseWeightCalculation);
-    print('updating course weight: $courseWeightCalculation');
+      // Update the previous weight to the new calculation
+      previousCourseWeight = courseWeightCalculation;
+
+      // Call the callback with the new course weight
+      widget.onCourseWeightChanged?.call(courseWeightCalculation);
+    }
   }
 
   @override
@@ -89,11 +94,13 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
-                              RegExp(r'^[0-9]$')), // Allow only single digits
+                              RegExp(r'^[0-9]+$')), // Allow multiple digits
                         ],
-                        onChanged: (_) {
+                        onChanged: (value) {
                           setState(() {
                             updateCourseWeight();
+                            widget.onCourseUnitChanged(
+                                value); // Pass the unit value
                           });
                         },
                       ),

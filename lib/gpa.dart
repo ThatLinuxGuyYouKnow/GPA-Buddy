@@ -12,35 +12,41 @@ class GpaScreen extends StatefulWidget {
 
 class _GpaScreenState extends State<GpaScreen> {
   double totalGradeCount = 0.0;
-  int courseCount = 1; // Use integer for count
-  double? calculatedGPA; // Store calculated GPA for display
+  int courseCount = 1;
+  double? calculatedGPA;
   int totalCourseUnits = 0;
-  List<Widget> courses = [
-    CourseSubsection(
-      onGradeSelected: (grade) {},
-      onCourseUnitChanged: (String courseUnit) {},
-    )
+
+  // Use a list of courses with keys
+  List<Map<String, dynamic>> courses = [
+    {
+      'widget': CourseSubsection(
+        key: GlobalKey<CourseSubsectionState>(),
+        onGradeSelected: (grade) {},
+        onCourseUnitChanged: (String courseUnit) {},
+      ),
+      'key': GlobalKey<CourseSubsectionState>(),
+    }
   ];
-  List<double> courseWeights = []; // To track individual course weights
 
   void _addCourse() {
     setState(() {
-      courses.add(CourseSubsection(
-        key: GlobalKey<CourseSubsectionState>(), // Assign unique key
-        onGradeSelected: (grade) {}, // Optional callback
-        onCourseUnitChanged: (unit) {}, // Optional callback
-      ));
+      final newKey = GlobalKey<CourseSubsectionState>();
+      courses.add({
+        'widget': CourseSubsection(
+          key: newKey,
+          onGradeSelected: (grade) {},
+          onCourseUnitChanged: (unit) {},
+        ),
+        'key': newKey,
+      });
     });
   }
 
   void _removeCourse(int index) {
     setState(() {
-      if (index < courses.length && index < courseWeights.length) {
-        totalGradeCount -= courseWeights[index]; // Subtract the weight
-        totalCourseUnits -= courseWeights[index].toInt(); // Subtract the units
-        courses.removeAt(index); // Remove the course widget
-        courseWeights.removeAt(index); // Remove the weight
-        courseCount = courses.length; // Update course count
+      if (index < courses.length) {
+        courses.removeAt(index);
+        courseCount = courses.length;
       }
     });
   }
@@ -110,7 +116,7 @@ class _GpaScreenState extends State<GpaScreen> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              ...courses,
+                              ...courses.map((course) => course['widget']),
                               const SizedBox(height: 20),
                             ],
                           ),
@@ -145,15 +151,12 @@ class _GpaScreenState extends State<GpaScreen> {
                           int totalUnits = 0;
 
                           for (var course in courses) {
-                            // Use keys or references to retrieve course-specific data
-                            final grade =
-                                (course.key as GlobalKey<CourseSubsectionState>)
-                                    .currentState
-                                    ?.getGradeValue();
-                            final units =
-                                (course.key as GlobalKey<CourseSubsectionState>)
-                                    .currentState
-                                    ?.getCourseUnits();
+                            final courseKey = course['key']
+                                as GlobalKey<CourseSubsectionState>;
+                            final state = courseKey.currentState;
+
+                            final grade = state?.getGradeValue();
+                            final units = state?.getCourseUnits();
 
                             if (grade != null && units != null) {
                               totalGradeWeights += grade * units;

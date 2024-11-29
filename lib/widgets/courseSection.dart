@@ -2,27 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
-
 class CourseSubsection extends StatefulWidget {
-  final Function(String selectedGrade) onGradeSelected;
-  final Function(String courseUnit) onCourseUnitChanged;
+  final Function(String)? onGradeSelected;
+  final Function(String)? onCourseUnitChanged;
 
   const CourseSubsection({
     super.key,
-    required this.onGradeSelected,
-    required this.onCourseUnitChanged,
+    this.onGradeSelected,
+    this.onCourseUnitChanged,
   });
 
   @override
-  State<CourseSubsection> createState() => _CourseSubsectionState();
+  CourseSubsectionState createState() => CourseSubsectionState();
 }
 
-class _CourseSubsectionState extends State<CourseSubsection> {
+class CourseSubsectionState extends State<CourseSubsection> {
+  double? gradeValue;
+  int? courseUnits;
+
+  void updateGrade(double grade) {
+    setState(() {
+      gradeValue = grade;
+    });
+  }
+
+  void updateUnits(String units) {
+    setState(() {
+      courseUnits = int.tryParse(units);
+    });
+  }
+
+  double? getGradeValue() => gradeValue;
+  int? getCourseUnits() => courseUnits;
+  var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
   final unitController = TextEditingController();
   String selectedGrade = 'A';
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -79,7 +93,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                           ),
                         ],
                         onChanged: (value) {
-                          widget.onCourseUnitChanged(value);
+                          widget.onCourseUnitChanged!(value);
                         },
                       ),
                     ],
@@ -131,7 +145,7 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                             setState(() {
                               selectedGrade = value;
                             });
-                            widget.onGradeSelected(value);
+                            widget.onGradeSelected!(value);
                           }
                         },
                         icon: const Icon(

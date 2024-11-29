@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gpa_calculator/logic/gradeAndUnitWeight.dart';
 
 var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 class CourseSubsection extends StatefulWidget {
-  final Function(String selectedCourse) onGradeSelected;
-  final Function(double courseWeight)? onCourseWeightChanged;
+  final Function(String selectedGrade) onGradeSelected;
   final Function(String courseUnit) onCourseUnitChanged;
-  const CourseSubsection(
-      {super.key,
-      required this.onGradeSelected,
-      this.onCourseWeightChanged,
-      required this.onCourseUnitChanged});
+
+  const CourseSubsection({
+    super.key,
+    required this.onGradeSelected,
+    required this.onCourseUnitChanged,
+  });
 
   @override
   State<CourseSubsection> createState() => _CourseSubsectionState();
@@ -22,35 +21,6 @@ class CourseSubsection extends StatefulWidget {
 class _CourseSubsectionState extends State<CourseSubsection> {
   final unitController = TextEditingController();
   String selectedGrade = 'A';
-  double courseWeightCalculation = 0.0;
-  double previousCourseWeight = 0.0;
-  void updateCourseWeight() {
-    if (unitController.text.isNotEmpty) {
-      // First, subtract the previous course weight if it exists
-      widget.onCourseWeightChanged?.call(-previousCourseWeight);
-
-      // Calculate the new course weight
-      courseWeightCalculation =
-          getCourseWeight(grade: selectedGrade, unit: unitController.text);
-
-      // Update the previous weight to the new calculation
-      previousCourseWeight = courseWeightCalculation;
-
-      // Call the callback with the new course weight
-      widget.onCourseWeightChanged?.call(courseWeightCalculation);
-    }
-  }  double? gradeValue;
- void updateGrade(double grade) {
-    setState(() {
-      gradeValue = grade;
-    });
-  }
-
-  void updateUnits(String units) {
-    setState(() {
-      courseUnits = int.tryParse(units);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,13 +75,12 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
-                              RegExp(r'^[0-9]+$')), // Allow multiple digits
+                            RegExp(r'^[0-9]+$'),
+                          ),
                         ],
                         onChanged: (value) {
-            updateUnits(value);
-            if (widget.onCourseUnitChanged != null) {
-              widget.onCourseUnitChanged!(value);
-            }}
+                          widget.onCourseUnitChanged(value);
+                        },
                       ),
                     ],
                   ),
@@ -157,16 +126,14 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                             ),
                           );
                         }).toList(),
-                           onChanged: (value) {
-            updateGrade(value ?? 0.0);
-            if (widget.onGradeSelected != null) {
-              widget.onGradeSelected!(value ?? 0.0);
-            }
-          },
-          items: [4.0, 3.0, 2.0, 1.0, 0.0]
-              .map((e) => DropdownMenuItem(value: e, child: Text('$e')))
-              .toList(),
-        ),
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              selectedGrade = value;
+                            });
+                            widget.onGradeSelected(value);
+                          }
+                        },
                         icon: const Icon(
                           Icons.arrow_drop_down,
                           color: Colors.black,

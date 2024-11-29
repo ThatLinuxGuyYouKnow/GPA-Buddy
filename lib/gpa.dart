@@ -73,12 +73,13 @@ class _GpaScreenState extends State<GpaScreen> {
 
       final grade = state?.getGradeValue();
       final units = state?.getCourseUnits();
-
+      print(grade.toString());
       if (grade != null && units != null) {
         totalCalculatedWeight +=
             _convertGradeToValue(state!.selectedGrade) * units;
         totalCalculatedUnits += units;
       }
+      setState(() {});
     }
 
     if (totalCalculatedUnits == 0) return 0.0;
@@ -106,8 +107,6 @@ class _GpaScreenState extends State<GpaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double? gradeValue;
-    int? courseUnits;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;

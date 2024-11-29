@@ -108,12 +108,10 @@ class _CourseSubsectionState extends State<CourseSubsection> {
                               RegExp(r'^[0-9]+$')), // Allow multiple digits
                         ],
                         onChanged: (value) {
-                          setState(() {
-                            updateCourseWeight();
-                            widget.onCourseUnitChanged(
-                                value); // Pass the unit value
-                          });
-                        },
+            updateUnits(value);
+            if (widget.onCourseUnitChanged != null) {
+              widget.onCourseUnitChanged!(value);
+            }}
                       ),
                     ],
                   ),

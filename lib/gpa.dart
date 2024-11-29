@@ -202,9 +202,6 @@ class _GpaScreenState extends State<GpaScreen> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          double totalGradeWeights = 0.0;
-                          int totalUnits = 0;
-
                           for (var course in courses) {
                             final courseKey = course['key']
                                 as GlobalKey<CourseSubsectionState>;
@@ -214,8 +211,8 @@ class _GpaScreenState extends State<GpaScreen> {
                             final units = state?.getCourseUnits();
 
                             if (grade != null && units != null) {
-                              totalGradeWeights += grade * units;
-                              totalUnits += units;
+                              totalGradeWeight += grade * units;
+                              totalCourseUnits += units;
                             }
                           }
 

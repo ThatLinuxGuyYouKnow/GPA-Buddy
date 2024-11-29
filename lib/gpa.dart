@@ -26,37 +26,10 @@ class _GpaScreenState extends State<GpaScreen> {
   void _addCourse() {
     setState(() {
       courses.add(CourseSubsection(
-        onGradeSelected: (grade) {},
-        onCourseUnitChanged: (String courseUnit) {
-          int index = courses.length - 1;
-          int units = int.tryParse(courseUnit) ?? 0;
-
-          if (index < courseWeights.length) {
-            totalCourseUnits -=
-                courseWeights[index].toInt(); // Subtract old units
-            courseWeights[index] = units.toDouble(); // Update with new units
-          } else {
-            courseWeights.add(units.toDouble()); // Add new units
-          }
-
-          totalCourseUnits += units;
-        },
-        onCourseWeightChanged: (double? courseWeight) {
-          if (courseWeight != null) {
-            int index = courses.length - 1;
-
-            if (index < courseWeights.length) {
-              totalGradeCount -=
-                  courseWeights[index]; // Potential negative source
-              courseWeights[index] = courseWeight;
-            } else {
-              courseWeights.add(courseWeight);
-            }
-            totalGradeCount += courseWeight; // Adding the new course weight
-          }
-        },
+        key: GlobalKey<CourseSubsectionState>(), // Assign unique key
+        onGradeSelected: (grade) {}, // Optional callback
+        onCourseUnitChanged: (unit) {}, // Optional callback
       ));
-      courseCount = courses.length; // Update course count
     });
   }
 

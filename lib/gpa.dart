@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/logic/finalGpaCalculator.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
 class GpaScreen extends StatefulWidget {
@@ -47,16 +48,6 @@ class _GpaScreenState extends State<GpaScreen> {
         courses.removeAt(index);
         courseWeights.removeAt(index);
         courseCount = courses.length; // Update course count
-      }
-    });
-  }
-
-  void _calculateGPA() {
-    setState(() {
-      if (courseCount > 0) {
-        calculatedGPA = totalGradeCount / courseCount;
-      } else {
-        calculatedGPA = null; // Handle case where no courses are present
       }
     });
   }
@@ -155,7 +146,9 @@ class _GpaScreenState extends State<GpaScreen> {
                     ),
                     const SizedBox(height: 20),
                     InkWell(
-                      onTap: _calculateGPA,
+                      onTap: calculateGPA(
+                          totalGradeWeights: totalGradeCount,
+                          numberOfCourses: courseCount.toDouble()),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.black,

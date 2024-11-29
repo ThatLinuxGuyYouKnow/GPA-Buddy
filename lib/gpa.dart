@@ -46,12 +46,13 @@ class _GpaScreenState extends State<GpaScreen> {
             int index = courses.length - 1;
 
             if (index < courseWeights.length) {
-              totalGradeCount -= courseWeights[index];
+              totalGradeCount -=
+                  courseWeights[index]; // Potential negative source
               courseWeights[index] = courseWeight;
             } else {
               courseWeights.add(courseWeight);
             }
-            totalGradeCount += courseWeight;
+            totalGradeCount += courseWeight; // Adding the new course weight
           }
         },
       ));
@@ -168,8 +169,9 @@ class _GpaScreenState extends State<GpaScreen> {
                       onTap: () {
                         setState(() {
                           calculatedGPA = calculateGPA(
-                              totalGradeWeights: totalGradeCount,
-                              totalUnits: courseCount);
+                            totalGradeWeights: totalGradeCount,
+                            totalUnits: totalCourseUnits, // Pass total units
+                          );
                         });
                       },
                       child: Container(

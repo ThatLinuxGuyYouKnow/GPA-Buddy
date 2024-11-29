@@ -31,9 +31,16 @@ class _GpaScreenState extends State<GpaScreen> {
         onCourseWeightChanged: (double? courseWeight) {
           if (courseWeight != null) {
             setState(() {
-              courseWeights.add(courseWeight);
+              // If we already have a weight for this course index, subtract the old weight first
+              if (courseWeights.length > courses.length - 1) {
+                totalGradeCount -= courseWeights[courses.length - 1];
+                courseWeights[courses.length - 1] = courseWeight;
+              } else {
+                courseWeights.add(courseWeight);
+              }
+
               totalGradeCount += courseWeight;
-              courseCount = courses.length; // Update course count
+              courseCount = courses.length;
             });
           }
         },
@@ -44,9 +51,9 @@ class _GpaScreenState extends State<GpaScreen> {
   void _removeCourse(int index) {
     setState(() {
       if (index < courses.length && index < courseWeights.length) {
-        totalGradeCount -= courseWeights[index];
-        courses.removeAt(index);
-        courseWeights.removeAt(index);
+        totalGradeCount -= courseWeights[index]; // Subtract the weight
+        courses.removeAt(index); // Remove the course widget
+        courseWeights.removeAt(index); // Remove the weight
         courseCount = courses.length; // Update course count
       }
     });
@@ -146,9 +153,13 @@ class _GpaScreenState extends State<GpaScreen> {
                     ),
                     const SizedBox(height: 20),
                     InkWell(
-                      onTap: calculateGPA(
-                          totalGradeWeights: totalGradeCount,
-                          numberOfCourses: courseCount.toDouble()),
+                      onTap: () {
+                        setState(() {
+                          calculatedGPA = calculateGPA(
+                              totalGradeWeights: totalGradeCount,
+                              numberOfCourses: courseCount);
+                        });
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.black,
@@ -169,16 +180,15 @@ class _GpaScreenState extends State<GpaScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    if (calculatedGPA != null)
-                      Text(
-                        'Your GPA: ${calculatedGPA!.toStringAsFixed(2)}',
-                        style: GoogleFonts.ubuntu(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    else
-                      const SizedBox.shrink(),
+                    calculatedGPA != null
+                        ? Text(
+                            'Your GPA: ${calculatedGPA!.toStringAsFixed(2)}',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),

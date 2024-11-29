@@ -14,7 +14,7 @@ class _GpaScreenState extends State<GpaScreen> {
   double totalGradeCount = 0.0;
   int courseCount = 1; // Use integer for count
   double? calculatedGPA; // Store calculated GPA for display
-
+  int totalCourseUnits = 0;
   List<Widget> courses = [
     CourseSubsection(
       onGradeSelected: (grade) {},
@@ -27,16 +27,28 @@ class _GpaScreenState extends State<GpaScreen> {
     setState(() {
       courses.add(CourseSubsection(
         onGradeSelected: (grade) {},
-        onCourseUnitChanged: (String courseUnit) {},
+        onCourseUnitChanged: (String courseUnit) {
+          int index = courses.length - 1;
+          int units = int.tryParse(courseUnit) ?? 0;
+
+          if (index < courseWeights.length) {
+            totalCourseUnits -=
+                courseWeights[index].toInt(); // Subtract old units
+            courseWeights[index] = units.toDouble(); // Update with new units
+          } else {
+            courseWeights.add(units.toDouble()); // Add new units
+          }
+
+          totalCourseUnits += units;
+        },
         onCourseWeightChanged: (double? courseWeight) {
           if (courseWeight != null) {
-            int index = courses.length - 1; // Get the index of the new course
+            int index = courses.length - 1;
+
             if (index < courseWeights.length) {
-              // Subtract the old weight before updating
               totalGradeCount -= courseWeights[index];
               courseWeights[index] = courseWeight;
             } else {
-              // Add a new weight for the course
               courseWeights.add(courseWeight);
             }
             totalGradeCount += courseWeight;
@@ -51,6 +63,7 @@ class _GpaScreenState extends State<GpaScreen> {
     setState(() {
       if (index < courses.length && index < courseWeights.length) {
         totalGradeCount -= courseWeights[index]; // Subtract the weight
+        totalCourseUnits -= courseWeights[index].toInt(); // Subtract the units
         courses.removeAt(index); // Remove the course widget
         courseWeights.removeAt(index); // Remove the weight
         courseCount = courses.length; // Update course count
@@ -156,7 +169,7 @@ class _GpaScreenState extends State<GpaScreen> {
                         setState(() {
                           calculatedGPA = calculateGPA(
                               totalGradeWeights: totalGradeCount,
-                              numberOfCourses: courseCount);
+                              totalUnits: courseCount);
                         });
                       },
                       child: Container(

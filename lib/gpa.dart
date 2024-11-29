@@ -10,8 +10,19 @@ class GpaScreen extends StatefulWidget {
   State<GpaScreen> createState() => _GpaScreenState();
 }
 
+List<Map<String, dynamic>> courses = [
+  {
+    'widget': CourseSubsection(
+      key: GlobalKey<CourseSubsectionState>(),
+      onGradeSelected: (grade) {},
+      onCourseUnitChanged: (String courseUnit) {},
+    ),
+    'key': GlobalKey<CourseSubsectionState>(),
+  }
+];
+
 class _GpaScreenState extends State<GpaScreen> {
-  double totalGradeCount = 0.0;
+  double totalGradeWeight = 0.0;
   int courseCount = 1;
   double? calculatedGPA;
   int totalCourseUnits = 0;
@@ -35,7 +46,9 @@ class _GpaScreenState extends State<GpaScreen> {
         'widget': CourseSubsection(
           key: newKey,
           onGradeSelected: (grade) {},
-          onCourseUnitChanged: (unit) {},
+          onCourseUnitChanged: (unit) {
+            print(unit.toString());
+          },
         ),
         'key': newKey,
       });

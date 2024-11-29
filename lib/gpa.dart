@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gpa_calculator/logic/finalGpaCalculator.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
 class GpaScreen extends StatefulWidget {
@@ -64,8 +63,51 @@ class _GpaScreenState extends State<GpaScreen> {
     });
   }
 
+  double calculateGPA() {
+    double totalCalculatedWeight = 0.0;
+    int totalCalculatedUnits = 0;
+
+    for (var course in courses) {
+      final courseKey = course['key'] as GlobalKey<CourseSubsectionState>;
+      final state = courseKey.currentState;
+
+      final grade = state?.getGradeValue();
+      final units = state?.getCourseUnits();
+
+      if (grade != null && units != null) {
+        totalCalculatedWeight +=
+            _convertGradeToValue(state!.selectedGrade) * units;
+        totalCalculatedUnits += units;
+      }
+    }
+
+    if (totalCalculatedUnits == 0) return 0.0;
+    return totalCalculatedWeight / totalCalculatedUnits;
+  }
+
+  double _convertGradeToValue(String grade) {
+    switch (grade) {
+      case 'A':
+        return 5.0;
+      case 'B':
+        return 4.0;
+      case 'C':
+        return 3.0;
+      case 'D':
+        return 2.0;
+      case 'E':
+        return 1.0;
+      case 'F':
+        return 0.0;
+      default:
+        return 0.0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double? gradeValue;
+    int? courseUnits;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;
@@ -177,10 +219,9 @@ class _GpaScreenState extends State<GpaScreen> {
                             }
                           }
 
-                          calculatedGPA = calculateGPA(
-                            totalGradeWeights: totalGradeWeights,
-                            totalUnits: totalUnits,
-                          );
+                          setState(() {
+                            calculatedGPA = calculateGPA();
+                          });
                         });
                       },
                       child: Container(

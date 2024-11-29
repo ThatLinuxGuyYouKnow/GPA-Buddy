@@ -168,9 +168,29 @@ class _GpaScreenState extends State<GpaScreen> {
                     InkWell(
                       onTap: () {
                         setState(() {
+                          double totalGradeWeights = 0.0;
+                          int totalUnits = 0;
+
+                          for (var course in courses) {
+                            // Use keys or references to retrieve course-specific data
+                            final grade =
+                                (course.key as GlobalKey<CourseSubsectionState>)
+                                    .currentState
+                                    ?.getGradeValue();
+                            final units =
+                                (course.key as GlobalKey<CourseSubsectionState>)
+                                    .currentState
+                                    ?.getCourseUnits();
+
+                            if (grade != null && units != null) {
+                              totalGradeWeights += grade * units;
+                              totalUnits += units;
+                            }
+                          }
+
                           calculatedGPA = calculateGPA(
-                            totalGradeWeights: totalGradeCount,
-                            totalUnits: totalCourseUnits, // Pass total units
+                            totalGradeWeights: totalGradeWeights,
+                            totalUnits: totalUnits,
                           );
                         });
                       },

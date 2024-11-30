@@ -50,7 +50,7 @@ CourseSelectionList Model
 Clone the repository:
 
  ```
- git clone https://github.com/your-repo/GPA-Buddy.git
+ git clone https://github.com/ThatLinuxGuyYouKnow/GPA-Buddy.git
  ```
 and then,
 

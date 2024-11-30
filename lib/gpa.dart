@@ -40,22 +40,6 @@ class _GpaScreenState extends State<GpaScreen> {
     }
   ];
 
-  void _addCourse() {
-    setState(() {
-      final newKey = GlobalKey<CourseSubsectionState>();
-      courses.add({
-        'widget': CourseSubsection(
-          key: newKey,
-          onGradeSelected: (grade) {},
-          onCourseUnitChanged: (unit) {
-            print(unit.toString());
-          },
-        ),
-        'key': newKey,
-      });
-    });
-  }
-
   void _removeCourse(int index) {
     setState(() {
       if (index < courses.length) {
@@ -86,7 +70,12 @@ class _GpaScreenState extends State<GpaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textListModel = Provider.of<CourseSelectionList>(context);
+    final courseListModel = Provider.of<CourseSelectionList>(context);
+
+    void _addCourse() {
+      courseListModel.addCourse();
+    }
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;
@@ -148,7 +137,7 @@ class _GpaScreenState extends State<GpaScreen> {
                         child: SingleChildScrollView(
                           child: Expanded(
                             child: ListView.builder(
-                              itemCount: textListModel.courseList.length,
+                              itemCount: courseListModel.courseList.length,
                               itemBuilder: (context, index) {
                                 return const CourseSubsection();
                               },

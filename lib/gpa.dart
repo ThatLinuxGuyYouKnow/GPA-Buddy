@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/models/courseSelectionList.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
+import 'package:provider/provider.dart';
 
 class GpaScreen extends StatefulWidget {
   const GpaScreen({super.key});
@@ -63,29 +65,6 @@ class _GpaScreenState extends State<GpaScreen> {
     });
   }
 
-  double calculateGPA() {
-    double totalCalculatedWeight = 0.0;
-    int totalCalculatedUnits = 0;
-
-    for (var course in courses) {
-      final courseKey = course['key'] as GlobalKey<CourseSubsectionState>;
-      final state = courseKey.currentState;
-
-      final grade = state?.getGradeValue();
-      final units = state?.getCourseUnits();
-      print(grade.toString());
-      if (grade != null && units != null) {
-        totalCalculatedWeight +=
-            _convertGradeToValue(state!.selectedGrade) * units;
-        totalCalculatedUnits += units;
-      }
-      setState(() {});
-    }
-
-    if (totalCalculatedUnits == 0) return 0.0;
-    return totalCalculatedWeight / totalCalculatedUnits;
-  }
-
   double _convertGradeToValue(String grade) {
     switch (grade) {
       case 'A':
@@ -107,6 +86,7 @@ class _GpaScreenState extends State<GpaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final textListModel = Provider.of<CourseSelectionList>(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;
@@ -166,13 +146,13 @@ class _GpaScreenState extends State<GpaScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ...courses.map((course) => course['widget']),
-                              const SizedBox(height: 20),
-                            ],
+                          child: Expanded(
+                            child: ListView.builder(
+                              itemCount: textListModel.courseList.length,
+                              itemBuilder: (context, index) {
+                                return const CourseSubsection();
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -214,10 +194,6 @@ class _GpaScreenState extends State<GpaScreen> {
                               totalCourseUnits += units;
                             }
                           }
-
-                          setState(() {
-                            calculatedGPA = calculateGPA();
-                          });
                         });
                       },
                       child: Container(

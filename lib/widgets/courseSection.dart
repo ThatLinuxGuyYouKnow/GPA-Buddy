@@ -6,14 +6,10 @@ import 'package:gpa_calculator/models/courseSelectionList.dart';
 import 'package:provider/provider.dart';
 
 class CourseSubsection extends StatefulWidget {
-  final Function(String)? onGradeSelected;
-  final Function(String)? onCourseUnitChanged;
   final int index;
 
   const CourseSubsection({
     super.key,
-    this.onGradeSelected,
-    this.onCourseUnitChanged,
     required this.index,
   });
 
@@ -30,15 +26,6 @@ class CourseSubsectionState extends State<CourseSubsection> {
   String selectedGrade = 'A';
   Widget build(BuildContext context) {
     final courseListModel = Provider.of<CourseSelectionList>(context);
-    void updateGrade(String grade) {
-      courseListModel.updateCourseUnit(widget.index, grade);
-    }
-
-    void updateUnits(String units) {
-      setState(() {
-        courseUnits = int.tryParse(units);
-      });
-    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -95,12 +82,14 @@ class CourseSubsectionState extends State<CourseSubsection> {
                           ),
                         ],
                         onChanged: (value) {
-                          double courseWeight = getCourseWeight(
-                              grade: selectedGrade, unit: value);
-
-                          courseListModel.updateCourseUnit(widget.index, value);
-                          courseListModel.updateCourseWeight(
-                              widget.index, courseWeight.toInt());
+                          if (value.isNotEmpty) {
+                            double courseWeight = getCourseWeight(
+                                grade: selectedGrade, unit: value);
+                            courseListModel.updateCourseUnit(
+                                widget.index, value);
+                            courseListModel.updateCourseWeight(
+                                widget.index, courseWeight.toInt());
+                          }
                         },
                       ),
                     ],

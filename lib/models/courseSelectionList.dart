@@ -7,28 +7,47 @@ class CourseSelectionList extends ChangeNotifier {
       index: 0,
     )
   ];
+
   List<Widget> get courseList => courses;
   List<int> get courseWeight => _courseWeight;
   List<int> get courseUnit => _courseUnit;
-  final List<int> _courseUnit = [];
-  final List<int> _courseWeight = [];
+
+  final List<int> _courseUnit = [0]; // Initialize with a default value
+  final List<int> _courseWeight = [0]; // Initialize with a default value
+
   addCourse() {
     courses.add(CourseSubsection(
       index: courses.length,
     ));
+    _courseUnit.add(0); // Add a corresponding unit entry
+    _courseWeight.add(0); // Add a corresponding weight entry
+    print('new index: ${courses.length}');
     notifyListeners();
   }
 
   removeCourse() {
-    courses.removeLast();
-    notifyListeners();
+    if (courses.length > 1) {
+      // Prevent removing the last course
+      courses.removeLast();
+      _courseUnit.removeLast();
+      _courseWeight.removeLast();
+      notifyListeners();
+    }
   }
 
   updateCourseWeight(int index, int weight) {
-    _courseWeight[index] = weight;
+    if (index >= 0 && index < _courseWeight.length) {
+      _courseWeight[index] = weight;
+      notifyListeners();
+      print(courseWeight);
+    }
   }
 
   updateCourseUnit(int index, String text) {
-    _courseUnit[index] = int.tryParse(text) ?? 0;
+    if (index >= 0 && index < _courseUnit.length) {
+      _courseUnit[index] = int.tryParse(text) ?? 0;
+      print(courseUnit);
+      notifyListeners();
+    }
   }
 }

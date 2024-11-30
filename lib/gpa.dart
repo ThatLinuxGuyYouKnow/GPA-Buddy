@@ -17,30 +17,10 @@ class _GpaScreenState extends State<GpaScreen> {
   double? calculatedGPA;
   int totalCourseUnits = 0;
 
-  double _convertGradeToValue(String grade) {
-    switch (grade) {
-      case 'A':
-        return 5.0;
-      case 'B':
-        return 4.0;
-      case 'C':
-        return 3.0;
-      case 'D':
-        return 2.0;
-      case 'E':
-        return 1.0;
-      case 'F':
-        return 0.0;
-      default:
-        return 0.0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final courseListModel = Provider.of<CourseSelectionList>(context);
 
-    List<Widget> courses = courseListModel.courseList;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;
@@ -133,7 +113,17 @@ class _GpaScreenState extends State<GpaScreen> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          for (var course in courses) {}
+                          // Use the provider's courseWeight and courseUnit lists
+                          totalGradeWeight = courseListModel.courseWeight.fold(
+                              0, (previous, current) => previous + current);
+                          totalCourseUnits = courseListModel.courseUnit.fold(
+                              0, (previous, current) => previous + current);
+                          print(
+                              'total corse unit' + totalCourseUnits.toString());
+                          print('total grade weight' +
+                              totalGradeWeight.toString());
+                          // Calculate GPA
+                          calculatedGPA = totalGradeWeight / totalCourseUnits;
                         });
                       },
                       child: Container(

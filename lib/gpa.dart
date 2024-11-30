@@ -68,25 +68,20 @@ class _GpaScreenState extends State<GpaScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minHeight: 200,
-                        maxHeight: 650,
+                    Container(
+                      constraints: BoxConstraints(maxHeight: 300),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ListView.builder(
-                          itemCount: courseListModel.courseList.length,
-                          itemBuilder: (context, index) {
-                            return CourseSubsection(
-                              index: index,
-                            );
-                          },
-                        ),
+                      child: ListView.builder(
+                        itemCount: courseListModel.courseList.length,
+                        itemBuilder: (context, index) {
+                          return CourseSubsection(
+                            index: index,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),

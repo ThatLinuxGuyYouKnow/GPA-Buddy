@@ -8,5 +8,10 @@ double getCourseWeight({required String grade, required String unit}) {
     'F' => 0.0,
     _ => throw ArgumentError('Invalid grade: $grade')
   };
-  return gradeWeight * double.parse(unit);
+  if (unit.isNotEmpty) {
+    print('grade weight for clacuklation' + gradeWeight.toString());
+    print('unit' + double.parse(unit).toString()); //!important: this errors out
+    return gradeWeight * double.parse(unit);
+  }
+  return 0.0;
 }

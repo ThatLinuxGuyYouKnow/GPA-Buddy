@@ -24,6 +24,7 @@ class CourseSubsectionState extends State<CourseSubsection> {
   var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
   final unitController = TextEditingController();
   String selectedGrade = 'A';
+
   Widget build(BuildContext context) {
     final courseListModel = Provider.of<CourseSelectionList>(context);
 
@@ -84,7 +85,9 @@ class CourseSubsectionState extends State<CourseSubsection> {
                         onChanged: (value) {
                           if (value.isNotEmpty) {
                             double courseWeight = getCourseWeight(
-                                grade: selectedGrade, unit: value);
+                                grade: selectedGrade,
+                                unit: unitController
+                                    .text); //! important: this doesnt work
                             courseListModel.updateCourseUnit(
                                 widget.index, value);
                             courseListModel.updateCourseWeight(
@@ -141,6 +144,11 @@ class CourseSubsectionState extends State<CourseSubsection> {
                             setState(() {
                               selectedGrade = value;
                             });
+                            double courseWeight = getCourseWeight(
+                                grade: selectedGrade,
+                                unit: unitController.text);
+                            courseListModel.updateCourseWeight(
+                                widget.index, courseWeight.toInt());
                           }
                         },
                         icon: const Icon(

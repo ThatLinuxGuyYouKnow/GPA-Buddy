@@ -1,2 +1,4 @@
-# GPA Calculator
+# GPA Buddy
+
+
 

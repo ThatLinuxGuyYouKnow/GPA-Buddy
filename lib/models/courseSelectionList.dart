@@ -9,10 +9,12 @@ class CourseSelectionList extends ChangeNotifier {
   ];
   List<Widget> get courseList => courses;
   List<int> get courseWeight => _courseWeight;
+  List<int> get courseUnit => _courseUnit;
+  List<int> _courseUnit = [];
   final List<int> _courseWeight = [];
   addCourse() {
     courses.add(CourseSubsection(
-      index: courses.length + 1,
+      index: courses.length,
     ));
     notifyListeners();
   }
@@ -22,7 +24,11 @@ class CourseSelectionList extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateCourseWeight(int index, String text) {
+    _courseWeight[index] = int.tryParse(text) ?? 0;
+  }
+
   updateCourseUnit(int index, String text) {
-    _courseWeight[index];
+    _courseUnit[index] = int.tryParse(text) ?? 0;
   }
 }

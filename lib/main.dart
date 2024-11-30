@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'GPA CALCULATOR',
+        title: 'GPA Buddy - Know your academic fate"',
         theme: ThemeData(
           fontFamily: GoogleFonts.ubuntu.toString(),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),

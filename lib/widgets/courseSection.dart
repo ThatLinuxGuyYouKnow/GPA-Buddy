@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/models/courseSelectionList.dart';
+import 'package:provider/provider.dart';
 
 class CourseSubsection extends StatefulWidget {
   final Function(String)? onGradeSelected;
   final Function(String)? onCourseUnitChanged;
+  final int index;
 
   const CourseSubsection({
     super.key,
     this.onGradeSelected,
     this.onCourseUnitChanged,
+    required this.index,
   });
 
   @override
@@ -20,24 +24,23 @@ class CourseSubsectionState extends State<CourseSubsection> {
   double? gradeValue;
   int? courseUnits;
 
-  void updateGrade(double grade) {
-    setState(() {
-      gradeValue = grade;
-    });
-  }
-
-  void updateUnits(String units) {
-    setState(() {
-      courseUnits = int.tryParse(units);
-    });
-  }
-
   double? getGradeValue() => gradeValue;
   int? getCourseUnits() => courseUnits;
   var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
   final unitController = TextEditingController();
   String selectedGrade = 'A';
   Widget build(BuildContext context) {
+    final courseListModel = Provider.of<CourseSelectionList>(context);
+    void updateGrade(String grade) {
+      courseListModel.updateCourseUnit(widget.index, grade);
+    }
+
+    void updateUnits(String units) {
+      setState(() {
+        courseUnits = int.tryParse(units);
+      });
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(

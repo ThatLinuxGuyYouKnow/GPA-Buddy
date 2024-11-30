@@ -11,43 +11,11 @@ class GpaScreen extends StatefulWidget {
   State<GpaScreen> createState() => _GpaScreenState();
 }
 
-List<Map<String, dynamic>> courses = [
-  {
-    'widget': CourseSubsection(
-      key: GlobalKey<CourseSubsectionState>(),
-      onGradeSelected: (grade) {},
-      onCourseUnitChanged: (String courseUnit) {},
-    ),
-    'key': GlobalKey<CourseSubsectionState>(),
-  }
-];
-
 class _GpaScreenState extends State<GpaScreen> {
   double totalGradeWeight = 0.0;
   int courseCount = 1;
   double? calculatedGPA;
   int totalCourseUnits = 0;
-
-  // Use a list of courses with keys
-  List<Map<String, dynamic>> courses = [
-    {
-      'widget': CourseSubsection(
-        key: GlobalKey<CourseSubsectionState>(),
-        onGradeSelected: (grade) {},
-        onCourseUnitChanged: (String courseUnit) {},
-      ),
-      'key': GlobalKey<CourseSubsectionState>(),
-    }
-  ];
-
-  void _removeCourse(int index) {
-    setState(() {
-      if (index < courses.length) {
-        courses.removeAt(index);
-        courseCount = courses.length;
-      }
-    });
-  }
 
   double _convertGradeToValue(String grade) {
     switch (grade) {
@@ -72,10 +40,7 @@ class _GpaScreenState extends State<GpaScreen> {
   Widget build(BuildContext context) {
     final courseListModel = Provider.of<CourseSelectionList>(context);
 
-    void _addCourse() {
-      courseListModel.addCourse();
-    }
-
+    List<Widget> courses = courseListModel.courseList;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isDesktop = constraints.maxWidth > 900;
@@ -137,14 +102,16 @@ class _GpaScreenState extends State<GpaScreen> {
                         child: ListView.builder(
                           itemCount: courseListModel.courseList.length,
                           itemBuilder: (context, index) {
-                            return const CourseSubsection();
+                            return CourseSubsection(
+                              index: index,
+                            );
                           },
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     InkWell(
-                      onTap: _addCourse,
+                      onTap: () => courseListModel.addCourse(),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
@@ -166,19 +133,7 @@ class _GpaScreenState extends State<GpaScreen> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          for (var course in courses) {
-                            final courseKey = course['key']
-                                as GlobalKey<CourseSubsectionState>;
-                            final state = courseKey.currentState;
-
-                            final grade = state?.getGradeValue();
-                            final units = state?.getCourseUnits();
-
-                            if (grade != null && units != null) {
-                              totalGradeWeight += grade * units;
-                              totalCourseUnits += units;
-                            }
-                          }
+                          for (var course in courses) {}
                         });
                       },
                       child: Container(

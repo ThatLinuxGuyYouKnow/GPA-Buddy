@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:gpa_calculator/widgets/courseSection.dart';
 
 class CourseSelectionList extends ChangeNotifier {
-  final List<Widget> courses = [const CourseSubsection()];
+  final List<Widget> courses = [
+    const CourseSubsection(
+      index: 0,
+    )
+  ];
   List<Widget> get courseList => courses;
   List<int> get courseWeight => _courseWeight;
-  List<int> _courseWeight = [];
+  final List<int> _courseWeight = [];
   addCourse() {
-    courses.add(const CourseSubsection());
+    courses.add(CourseSubsection(
+      index: courses.length + 1,
+    ));
     notifyListeners();
   }
 

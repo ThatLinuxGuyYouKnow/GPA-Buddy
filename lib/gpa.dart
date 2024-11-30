@@ -69,6 +69,7 @@ class _GpaScreenState extends State<GpaScreen> {
                     ),
                     const SizedBox(height: 20),
                     Container(
+                      height: 240,
                       constraints: BoxConstraints(maxHeight: 700),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(

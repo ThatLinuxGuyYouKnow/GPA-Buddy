@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gpa_calculator/gpa.dart';
+import 'package:gpa_calculator/models/courseSelectionList.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => CourseSelectionList(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -22,22 +22,23 @@ Changes to grades or units instantly update the app's state using Provider.
 Ensures valid input for course units and grades, preventing errors during GPA calculation.
 
 
-Technical Overview
-Key Components
+## Technical Overview
 
-    CourseSubsection Widget
+### Key Components
+
+CourseSubsection Widget
     Represents a single course section with three main inputs:
         Course Name: Free-text input.
         Units: Numeric input with validation (only positive integers allowed).
         Grade: Dropdown with predefined grade options.
 
-    CourseSelectionList Model
+CourseSelectionList Model
     Manages the state for:
         A list of courses.
         Corresponding course units and grades.
         Addition and update operations for courses.
 
-Installation and Setup
+## Installation and Setup
 Prerequisites
 
     Install Flutter: Flutter installation guide

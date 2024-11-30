@@ -39,7 +39,7 @@ class CourseSelectionList extends ChangeNotifier {
     if (index >= 0 && index < _courseWeight.length) {
       _courseWeight[index] = weight;
       notifyListeners();
-      print(courseWeight);
+      print('course weignht' + courseWeight.toString());
     }
   }
 

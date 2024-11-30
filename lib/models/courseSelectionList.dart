@@ -14,4 +14,6 @@ class CourseSelectionList extends ChangeNotifier {
     courses.removeLast();
     notifyListeners();
   }
+
+  updateCourseUnit() {}
 }

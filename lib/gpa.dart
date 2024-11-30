@@ -134,15 +134,11 @@ class _GpaScreenState extends State<GpaScreen> {
                           border: Border.all(color: Colors.grey.shade300),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: SingleChildScrollView(
-                          child: Expanded(
-                            child: ListView.builder(
-                              itemCount: courseListModel.courseList.length,
-                              itemBuilder: (context, index) {
-                                return const CourseSubsection();
-                              },
-                            ),
-                          ),
+                        child: ListView.builder(
+                          itemCount: courseListModel.courseList.length,
+                          itemBuilder: (context, index) {
+                            return const CourseSubsection();
+                          },
                         ),
                       ),
                     ),

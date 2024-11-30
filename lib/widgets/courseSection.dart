@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/logic/gradeAndUnitWeight.dart';
 import 'package:gpa_calculator/models/courseSelectionList.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +25,6 @@ class CourseSubsectionState extends State<CourseSubsection> {
   double? gradeValue;
   int? courseUnits;
 
-  double? getGradeValue() => gradeValue;
-  int? getCourseUnits() => courseUnits;
   var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
   final unitController = TextEditingController();
   String selectedGrade = 'A';
@@ -96,7 +95,12 @@ class CourseSubsectionState extends State<CourseSubsection> {
                           ),
                         ],
                         onChanged: (value) {
-                          widget.onCourseUnitChanged!(value);
+                          double courseWeight = getCourseWeight(
+                              grade: selectedGrade, unit: value);
+
+                          courseListModel.updateCourseUnit(widget.index, value);
+                          courseListModel.updateCourseWeight(
+                              widget.index, courseWeight.toInt());
                         },
                       ),
                     ],
@@ -148,7 +152,6 @@ class CourseSubsectionState extends State<CourseSubsection> {
                             setState(() {
                               selectedGrade = value;
                             });
-                            widget.onGradeSelected!(value);
                           }
                         },
                         icon: const Icon(

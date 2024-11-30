@@ -68,21 +68,29 @@ class _GpaScreenState extends State<GpaScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      height: 240,
-                      constraints: BoxConstraints(maxHeight: 700),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 240, // Minimum height
+                        maxHeight: 700, // Maximum height
                       ),
-                      child: ListView.builder(
-                        itemCount: courseListModel.courseList.length,
-                        itemBuilder: (context, index) {
-                          return CourseSubsection(
-                            index: index,
-                          );
-                        },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap:
+                              true, // Key property to make the ListView size to its content
+                          physics:
+                              const ClampingScrollPhysics(), // Ensures proper scrolling behavior
+                          itemCount: courseListModel.courseList.length,
+                          itemBuilder: (context, index) {
+                            return CourseSubsection(
+                              index: index,
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),

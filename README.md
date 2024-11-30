@@ -39,36 +39,31 @@ CourseSelectionList Model
         Addition and update operations for courses.
 
 ## Installation and Setup
-Prerequisites
 
-    Install Flutter: Flutter installation guide
-    A text editor/IDE like VS Code or Android Studio.
+### Prerequisites
 
-Steps
+- Install Flutter: Flutter installation guide
+   
 
-    Clone the repository:
+### Steps
 
-git clone https://github.com/your-repo/GPA-Buddy.git
-cd GPA-Buddy
+Clone the repository:
 
-Install dependencies:
+ ```
+ git clone https://github.com/your-repo/GPA-Buddy.git
+ ```
+and then,
 
-flutter pub get
+ ```
+ cd GPA-Buddy
+ ```
+### Install dependencies:
 
-Run the app:
+ ```
+ flutter pub get
+ ```
+### Run the app:
 
-    flutter run
-
-How to Use
-
-    Add Courses
-        Click the "Add Course" button to add a new section for inputting course details.
-
-    Enter Course Details
-        Fill in the course name, number of units, and select a grade from the dropdown.
-
-    Repeat for All Courses
-        Add as many courses as needed by repeating the above steps.
-
-    Calculate GPA
-        [Feature Placeholder] Once all course details are entered, GPA calculation logic will process the input.
+ ```
+flutter run
+ ```
